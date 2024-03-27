@@ -8,9 +8,9 @@ COPY etc /etc
 COPY lzblue-firstboot /usr/bin
 
 RUN rpm-ostree install python-pygit2 nautilus-python meld && \
-    mkdir -p /usr/local/turtle && cd /usr/local/turtle && \
+    mkdir /etc/opt/turtle && cd /etc/opt/turtle && \
     git clone https://gitlab.gnome.org/philippun1/turtle.git . && \
-    python install.py install && rm -rf /usr/local/turtle
+    python install.py install && rm -rf /etc/opt/turtle
 
 RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
