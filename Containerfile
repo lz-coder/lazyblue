@@ -7,23 +7,26 @@ COPY etc /etc
 
 COPY lzblue-firstboot /usr/bin
 
-# Starship Shell Prompt
+    # Starship Shell Prompt
 RUN curl -Lo /tmp/starship.tar.gz "https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz" && \
-  tar -xzf /tmp/starship.tar.gz -C /tmp && \
-  install -c -m 0755 /tmp/starship /usr/bin && \
-  echo 'eval "$(starship init bash)"' >> /etc/bashrc
+    tar -xzf /tmp/starship.tar.gz -C /tmp && \
+    install -c -m 0755 /tmp/starship /usr/bin && \
+    echo 'eval "$(starship init bash)"' >> /etc/bashrc
 
-# Turtle for nautilus
+    # Turtle for nautilus
 RUN rpm-ostree install python-pygit2 nautilus-python meld && \
-    mkdir /etc/opt/turtle && cd /etc/opt/turtle && \
-    git clone https://gitlab.gnome.org/philippun1/turtle.git . && \
-    python install.py install && rm -rf /etc/opt/turtle
+    git clone https://gitlab.gnome.org/philippun1/turtle.git /tmp/turtle && \
+    python /tmp/turtle/install.py install && \
+    #clone silverblue-tools
+    git clone https://github.com/lz-coder/silverblue-tools /tmp/tools && \
+    mkdir -p /etc/skel.d/.local/bin && \
+    cp /tmp/tools/toolbox-export /etc/skel.d/.local/bin/
 
 RUN wget https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -O /usr/libexec/brew-install && \
     chmod +x /usr/libexec/brew-install && \
     rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
-    rpm-ostree install zenity gnome-themes-extra distrobox gnome-tweaks podman-compose gh just gstreamer1-plugin-openh264 && \
+    rpm-ostree install zenity gnome-themes-extra gnome-tweaks podman-compose just gstreamer1-plugin-openh264 && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
