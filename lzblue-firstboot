@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if test -e "$HOME"/.config/ublue/firstboot-done; then
+if test -e "$HOME"/.config/lzblue/firstboot-done; then
     echo "Already ran"
     exit 0
 fi
@@ -29,7 +29,7 @@ fi
 echo "5"
 
 echo "# Replacing Fedora Flatpaks with Flathub Ones (this may take a while)"
-/usr/bin/flatpak install --user --noninteractive org.gnome.Platform//43
+/usr/bin/flatpak install --user --noninteractive org.gnome.Platform//45
 /usr/bin/flatpak install --user --noninteractive --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
 if [ "$?" != 0 ] ; then
         zenity --error \
@@ -82,31 +82,31 @@ if [ "$?" != 0 ] ; then
 fi
 echo "50"
 
-echo "# Installing LibreOffice"
-/usr/bin/flatpak install --user --noninteractive flathub org.libreoffice.LibreOffice
-if [ "$?" != 0 ] ; then
-        zenity --error \
-          --text="Installing LibreOffice Failed"
-        exit 1
-fi
+#echo "# Installing LibreOffice"
+#/usr/bin/flatpak install --user --noninteractive flathub org.libreoffice.LibreOffice
+#if [ "$?" != 0 ] ; then
+#        zenity --error \
+#          --text="Installing LibreOffice Failed"
+#        exit 1
+#fi
 echo "70"
 
-echo "# Installing DejaDup Backup"
-/usr/bin/flatpak install --user --noninteractive flathub org.gnome.DejaDup
-if [ "$?" != 0 ] ; then
-        zenity --error \
-          --text="Installing DejaDup Failed"
-        exit 1
-fi
+#echo "# Installing DejaDup Backup"
+#/usr/bin/flatpak install --user --noninteractive flathub org.gnome.DejaDup
+#if [ "$?" != 0 ] ; then
+#        zenity --error \
+#          --text="Installing DejaDup Failed"
+#        exit 1
+#fi
 echo "80"
 
-echo "# Installing Font Downloader"
-/usr/bin/flatpak install --user --noninteractive flathub org.gustavoperedo.FontDownloader
-if [ "$?" != 0 ] ; then
-        zenity --error \
-          --text="Installing FontDownloader Failed"
-        exit 1
-fi
+#echo "# Installing Font Downloader"
+#/usr/bin/flatpak install --user --noninteractive flathub org.gustavoperedo.FontDownloader
+#if [ "$?" != 0 ] ; then
+#        zenity --error \
+#          --text="Installing FontDownloader Failed"
+#        exit 1
+#fi
 echo "85"
 
 echo "# Installing Flatseal"
@@ -128,13 +128,13 @@ fi
 echo "100"
 
 echo "# Reticulating Final Splines"
-mkdir -p "$HOME"/.config/ublue/
-touch "$HOME"/.config/ublue/firstboot-done
+mkdir -p "$HOME"/.config/lzblue/
+touch "$HOME"/.config/lzblue/firstboot-done
 cp -n /etc/justfile "$HOME"/.justfile
 
 ) | 
      
-   zenity --progress --title="uBlue Desktop Firstboot" --percentage=0 --auto-close --no-cancel --width=300
+   zenity --progress --title="LzBlue Desktop Firstboot" --percentage=0 --auto-close --no-cancel --width=300
 
 if [ "$?" != 0 ] ; then
         zenity --error \
