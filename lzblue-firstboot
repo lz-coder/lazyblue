@@ -28,6 +28,15 @@ if [ "$?" != 0 ] ; then
 fi
 echo "5"
 
+echo "# Enabling Flathub Beta Repository"
+/usr/bin/flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+if [ "$?" != 0 ] ; then
+	zenity --error \
+	  --text="Adding Flathub Beta Repo Failed"
+	exit 1
+fi
+echo "7"
+
 echo "# Replacing Fedora Flatpaks with Flathub Ones (this may take a while)"
 /usr/bin/flatpak install --user --noninteractive org.gnome.Platform//45
 /usr/bin/flatpak install --user --noninteractive --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
@@ -82,31 +91,45 @@ if [ "$?" != 0 ] ; then
 fi
 echo "50"
 
-#echo "# Installing LibreOffice"
-#/usr/bin/flatpak install --user --noninteractive flathub org.libreoffice.LibreOffice
-#if [ "$?" != 0 ] ; then
-#        zenity --error \
-#          --text="Installing LibreOffice Failed"
-#        exit 1
-#fi
+echo "# Installing Telegram"
+/usr/bin/flatpak install --user --noninteractive flathub org.telegram.desktop
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Telegram Failed"
+        exit 1
+fi
 echo "70"
 
-#echo "# Installing DejaDup Backup"
-#/usr/bin/flatpak install --user --noninteractive flathub org.gnome.DejaDup
-#if [ "$?" != 0 ] ; then
-#        zenity --error \
-#          --text="Installing DejaDup Failed"
-#        exit 1
-#fi
+echo "# Installing VSCode"
+/usr/bin/flatpak install --user --noninteractive flathub com.visualstudio.code
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing VSCode Failed"
+        exit 1
+fi
+echo "# Installing VSCode Podman Runtime"
+/usr/bin/flatpak install --user --noninteractive flathub com.visualstudio.code.tool.podman/x86_64/23.08
+if [ "$?" != 0 ] ; then
+	zenity --error \
+	  --text="Installing VSCode Podman Runtime Failed"
+	exit 1
+fi
 echo "80"
 
-#echo "# Installing Font Downloader"
-#/usr/bin/flatpak install --user --noninteractive flathub org.gustavoperedo.FontDownloader
-#if [ "$?" != 0 ] ; then
-#        zenity --error \
-#          --text="Installing FontDownloader Failed"
-#        exit 1
-#fi
+echo "# Installing Pods"
+/usr/bin/flatpak install --user --noninteractive flathub com.github.marhkb.Pods
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Pods Failed"
+        exit 1
+fi
+echo "# Enable podman.socket in user"
+/usr/bin/systemctl --user enable --now podman.socker
+if [ "$?" != 0 ] ; then
+	zenity --error \
+	  --text="Error activating podman.socket"
+	exit 1
+fi
 echo "85"
 
 echo "# Installing Flatseal"
