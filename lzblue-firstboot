@@ -37,6 +37,20 @@ if [ "$?" != 0 ] ; then
 fi
 echo "7"
 
+if ! test -e "$HOME"/.config/lzblue/firstboot.linuxbrew; then
+  echo "# Installing Linuxbrew"
+  zenity --question --text="Enable Linuxbrew? (recommended)"
+  if [ "$?" -eq 0 ] ; then
+    kgx --title="INSTALL LINUXBREW!" -e /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    if [ "$?" != 0 ] ; then
+      zenity --error --text="Enabling Linuxbrew Failed!"
+      exit 1
+    fi
+    mkdir -p "$HOME"/.config/lzblue
+    touch "$HOME"/.config/lzblue/firstboot.linuxbrew
+  fi
+fi
+
 if ! test -e "$HOME"/.config/lzblue/firstboot.replace.flatpaks; then
   echo "# Replacing Fedora Flatpaks with Flathub Ones (this may take a while)"
   /usr/bin/flatpak install --user --noninteractive org.gnome.Platform//45
@@ -93,11 +107,11 @@ if [ "$?" != 0 ] ; then
 fi
 echo "50"
 
-echo "# Installing Telegram"
-/usr/bin/flatpak install --user --noninteractive flathub org.telegram.desktop
+echo "# Installing Fractal"
+/usr/bin/flatpak install --user --noninteractive flathub org.gnome.Fractal
 if [ "$?" != 0 ] ; then
         zenity --error \
-          --text="Installing Telegram Failed"
+          --text="Installing Fractal Failed"
         exit 1
 fi
 echo "70"
@@ -148,6 +162,15 @@ echo "# Installing Celluloid Media Player"
 if [ "$?" != 0 ] ; then
         zenity --error \
           --text="Installing Celluloid Failed"
+        exit 1
+fi
+echo "95"
+
+echo "# Installing Amberol"
+/usr/bin/flatpak install --user --noninteractive flathub io.bassi.Amberol
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Ambertol Failed"
         exit 1
 fi
 echo "100"
