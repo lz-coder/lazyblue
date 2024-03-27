@@ -124,7 +124,7 @@ jobs:
         env:
           TAGS: ${{ steps.push.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          COSIGN_PASSWORD: ${{ secrets.SIGNING_SECRET }}
 
       - name: Echo outputs
         run: |
