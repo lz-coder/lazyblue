@@ -31,19 +31,21 @@ echo "5"
 echo "# Enabling Flathub Beta Repository"
 /usr/bin/flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 if [ "$?" != 0 ] ; then
-	zenity --error \
-	  --text="Adding Flathub Beta Repo Failed"
-	exit 1
+	      zenity --error \
+	        --text="Adding Flathub Beta Repo Failed"
+	      exit 1
 fi
 echo "7"
 
-echo "# Replacing Fedora Flatpaks with Flathub Ones (this may take a while)"
-/usr/bin/flatpak install --user --noninteractive org.gnome.Platform//45
-/usr/bin/flatpak install --user --noninteractive --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
-if [ "$?" != 0 ] ; then
-        zenity --error \
-          --text="Replacing Fedora Flatpaks Failed"
-        exit 1
+if ! test -e "$HOME"/.config/lzblue/firstboot.replace.flatpaks; then
+  echo "# Replacing Fedora Flatpaks with Flathub Ones (this may take a while)"
+  /usr/bin/flatpak install --user --noninteractive org.gnome.Platform//45
+  /usr/bin/flatpak install --user --noninteractive --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
+  if [ "$?" != 0 ] ; then
+          zenity --error \
+            --text="Replacing Fedora Flatpaks Failed"
+          exit 1
+  fi
 fi
 echo "20"
 
@@ -153,11 +155,12 @@ echo "100"
 echo "# Reticulating Final Splines"
 mkdir -p "$HOME"/.config/lzblue/
 touch "$HOME"/.config/lzblue/firstboot-done
+touch "$HOME"/.config/lzblue/firstboot.replace.flatpaks
 cp -n /etc/justfile "$HOME"/.justfile
 
 ) | 
      
-   zenity --progress --title="LzBlue Desktop Firstboot" --percentage=0 --auto-close --no-cancel --width=300
+   zenity --progress --title="LzBlue Firstboot" --percentage=0 --auto-close --no-cancel --width=300
 
 if [ "$?" != 0 ] ; then
         zenity --error \
