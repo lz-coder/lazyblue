@@ -7,8 +7,9 @@ COPY etc /etc
 
 COPY lzblue-firstboot /usr/bin
 
-RUN rpm-ostree install distrobox gnome-tweaks podman-compose gh just gstreamer1-plugin-openh264 mozilla-openh264 && \
-    rpm-ostree override remove gnome-software-rpm-ostree && \
+RUN rpm-ostree override remove noopenh264 --install openh64 --install mozilla-openh264 && \ 
+    rpm-ostree install distrobox gnome-tweaks podman-compose gh just gstreamer1-plugin-openh264 && \
+    rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     rpm-ostree kargs --append=rd.luks.options=tpm2-device=auto && \
     rpm-ostree initramfs --enable --arg=-a --arg=systemd-pcrphase && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
