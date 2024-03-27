@@ -124,7 +124,7 @@ if [ "$?" != 0 ] ; then
         exit 1
 fi
 echo "# Enable podman.socket in user"
-/usr/bin/systemctl --user enable --now podman.socker
+/usr/bin/systemctl --user enable --now podman.socket
 if [ "$?" != 0 ] ; then
 	zenity --error \
 	  --text="Error activating podman.socket"
