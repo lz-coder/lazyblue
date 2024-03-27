@@ -1,44 +1,36 @@
-# base
-
-[![build-ublue](https://github.com/ublue-os/base/actions/workflows/build.yml/badge.svg)](https://github.com/ublue-os/base/actions/workflows/build.yml)
-
-A base image with a (mostly) stock Fedora Silverblue. Help us make a sweet base image: Pull requests and improvements appreciated and encouraged! Scroll to the bottom to see how to make your own!
+# LzBlue
+Light for the lazy person on me.
 
 ## What is this?
 
-This is a base Fedora Silverblue image designed to be customized to whatever you want, have GitHub build it for you, and then host it for you. You then just tell your computer to boot off of that image. GitHub keeps 90 days worth image backups for you, thanks Microsoft! 
-
-Check out the [spec for Fedora](https://fedoraproject.org/wiki/Changes/OstreeNativeContainerStable) for more information and proper explanation.
-
-Check out our [organization page](https://github.com/ublue-os) for images with MATE, XFCE, and an Ubuntu-like flavor. Or go right to the [Nvidia image](https://github.com/ublue-os/nvidia), your pathway to a more reliable experience. Some of these are examples that build off of this base image, so build whatever you'd like!
-
-These github actions and methods are meant to be shared and improved upon, [so come on in](https://github.com/orgs/ublue-os/discussions) and help out!
+This is a custom Silverblue image designed for my personal usage and preferences, don't rebase to it before getting to know its modifications.
+This image is builded on top of the latest Fedora release only, i dont want to maintain and build images for versions that i don't use.
 
 ## Usage
 
-Warning: This is an experimental feature and should not be used in production (yet), however it's pretty close)
+Warning: This is an experimental feature (use at your own risk)
 
-    sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/ublue-os/base:latest
+    sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/lz-coder/lzblue:latest
     
 We build date tags as well, so if you want to rebase to a particular day's release:
   
-    sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/ublue-os/base:20221217 
+    sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/lz-codeer/lzblue:20221217 
 
 The `latest` tag will automatically point to the latest build. 
 
 ## Features
 
-- Start with a base Fedora Silverblue 37 image
-- Removes Firefox from the base image
+- Removes the following packages from the base image:
+  - Firefox, gnome-software-rpm-ostree
 - Adds the following packages to the base image:
-  - distrobox and gnome-tweaks
+  - distrobox, gnome-tweaks
 - Sets automatic staging of updates for the system
 - Sets flatpaks to update twice a day
 - Everything else (desktop, artwork, etc) remains stock so you can use this as a good starting image
 
 ## Applications
 
-- All applications installed per user instead of system wide, similar to openSUSE MicroOS, they are not on the base image. Thanks for the inspiration Team Green!
+- All applications installed per user instead of system wide, similar to openSUSE Aeon, they are not on the base image. Thanks for the inspiration Team Green!
 - Mozilla Firefox, Mozilla Thunderbird, Extension Manager, Libreoffice, DejaDup, FontDownloader, Flatseal, and the Celluloid Media Player
 - Core GNOME Applications installed from Flathub
   - GNOME Calculator, Calendar, Characters, Connections, Contacts, Evince, Firmware, Logs, Maps, NautilusPreviewer, TextEditor, Weather, baobab, clocks, eog, and font-viewer
