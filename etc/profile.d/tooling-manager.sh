@@ -1,3 +1,5 @@
+exec > /dev/null 2>&1
+
 HOME_BIN="$HOME"/.local/bin
 SKEL_DIR=/etc/skel.d
 SKEL_DIR_BIN="$SKEL_DIR"/.local/bin
@@ -39,6 +41,9 @@ if test "$(id -u)" -gt "0" && test -d "$HOME"; then
 
     if ! check /bin/starship "$HOME_BIN"/starship; then
         cp -f /bin/starship "$HOME_BIN"
+        if ! grep -q 'eval "$(starship init bash)"' "$HOME"/.bashrc; then
+            echo $'\neval "$(starship init bash)"' >> "$HOME/".bashrc
+        fi
     fi
 
 
