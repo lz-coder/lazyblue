@@ -22,9 +22,7 @@ RUN rpm-ostree install python-pygit2 nautilus-python meld && \
     mkdir -p /etc/skel.d/.local/bin && \
     cp /tmp/tools/toolbox-export /etc/skel.d/.local/bin/
 
-RUN wget https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -O /usr/libexec/brew-install && \
-    chmod +x /usr/libexec/brew-install && \
-    rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
+RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
     rpm-ostree install zenity gnome-themes-extra gnome-tweaks podman-compose just gstreamer1-plugin-openh264 && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
