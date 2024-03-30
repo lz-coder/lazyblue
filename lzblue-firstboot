@@ -37,6 +37,27 @@ if [ "$?" != 0 ] ; then
 fi
 echo "7"
 
+echo "# Configuring your shell"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+pkexec chsh -s $(which zsh)
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+echo ZSH="${HOME}/.oh-my-zsh" >> "${HOME}"/.zshrc
+cat >> "$HOME"/.zshrc << 'EOL'
+
+#Theme
+ZSH_THEME=""
+
+#Plugins
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+source $ZSH/oh-my-zsh.sh
+
+#Star Ship
+eval "$(starship init zsh)"
+EOL
+echo "12"
+
+
 if ! test -e "$HOME"/.config/lzblue/firstboot.replace.flatpaks; then
   echo "# Replacing Fedora Flatpaks with Flathub Ones (this may take a while)"
   /usr/bin/flatpak install --user --noninteractive org.gnome.Platform//45
