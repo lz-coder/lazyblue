@@ -24,13 +24,14 @@ RUN rpm-ostree install python-pygit2 nautilus-python meld && \
 
 RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
-    rpm-ostree install zsh zenity gnome-themes-extra gnome-tweaks podman-compose just gstreamer1-plugin-openh264 && \
+    rpm-ostree install zsh zenity gnome-themes-extra gnome-tweaks podman-compose just \ 
+    gstreamer1-plugin-openh264 eza bat sysprof neovim && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
     sed -i '/^PRETTY_NAME/s/Silverblue/LzBlue/' /usr/lib/os-release && \
     rm -rf /tmp/* /var/* && \
     ostree container commit && \
-    mkdir -p /var/tmp && \
-    chmod -R 1777 /var/tmp
+    mkdir -p /tmp /var/tmp && \
+    chmod -R 1777 /tmp /var/tmp
 
