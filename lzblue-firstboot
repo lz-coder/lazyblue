@@ -31,12 +31,21 @@ echo "5"
 echo "# Enabling Flathub Beta Repository"
 /usr/bin/flatpak remote-add --user --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 if [ "$?" != 0 ] ; then
-	      zenity --error \
-	        --text="Adding Flathub Beta Repo Failed"
-	      exit 1
+	zenity --error \
+	  --text="Adding Flathub Beta Repo Failed"
+	exit 1
 fi
 echo "7"
+echo "Enabling Gnome Nigthly Repository"
+/usr/bin/flatpak remote-add --user --if-not-exists gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
+if [ "$?" != 0 ] ; then
+	zenity --error \
+	  --text="Adding Gnome Nightly Repo Failed"
+	exit 1
+fi
+echo "9"
 
+if ! test -e "$HOME"/.zshrc; then
 echo "# Configuring your shell"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 kgx --title="CHANGING DEFAULT SHELL" -e "chsh -s $(which zsh) && echo 'DONE! YOU CAN CLOSE THIS WINDOW'"
@@ -56,7 +65,18 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 EOL
 echo "12"
+fi
 
+if ! test -e "$HOME"/.config/lzblue/firstboot.removed.uneeded; then
+  echo "# Removing uneeded apps"
+  /usr/bin/flatpak remove --noninteractive org.gnome.Extensions org.gnome.Cheese
+  if [ "$?" != 0 ]; then
+	zenity --error \
+	  --text="Error removing uneeded apps"
+	exit 1
+  fi
+fi
+echo "14"
 
 if ! test -e "$HOME"/.config/lzblue/firstboot.replace.flatpaks; then
   echo "# Replacing Fedora Flatpaks with Flathub Ones (this may take a while)"
@@ -68,7 +88,7 @@ if ! test -e "$HOME"/.config/lzblue/firstboot.replace.flatpaks; then
           exit 1
   fi
 fi
-echo "20"
+echo "25"
 
 echo "Removing all preinstalled Flatpaks"
 /usr/bin/flatpak remove --system --noninteractive --all ||:
@@ -85,7 +105,7 @@ if [ "$?" != 0 ] ; then
           --text="Removing Fedora Flatpak Repo Failed"
         exit 1
 fi
-echo "25"
+echo "30"
 
 echo "# Installing Firefox"
 /usr/bin/flatpak install --user --noninteractive flathub org.mozilla.firefox
@@ -94,7 +114,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Firefox Failed"
         exit 1
 fi
-echo "30"
+echo "35"
 
 echo "# Installing Thunderbird"
 /usr/bin/flatpak install --user --noninteractive flathub org.mozilla.Thunderbird
@@ -112,6 +132,15 @@ if [ "$?" != 0 ] ; then
           --text="Installing Extension Manager Failed"
         exit 1
 fi
+echo "45"
+
+echo "# Installing Ptyxis"
+/usr/bin/flatpak install --user --noninteractive org.gnome.Ptyxis.Devel
+if [ "$?" != 0 ] ; then
+	zenity --error \
+	  --text="Installing Ptyxis Failed"
+	exit 1
+fi
 echo "50"
 
 echo "# Installing Fractal"
@@ -121,7 +150,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Fractal Failed"
         exit 1
 fi
-echo "70"
+echo "55"
 
 echo "# Installing VSCode"
 /usr/bin/flatpak install --user --noninteractive flathub com.visualstudio.code
@@ -137,7 +166,7 @@ if [ "$?" != 0 ] ; then
 	  --text="Installing VSCode Podman Runtime Failed"
 	exit 1
 fi
-echo "80"
+echo "60"
 
 echo "# Installing Pods"
 /usr/bin/flatpak install --user --noninteractive flathub com.github.marhkb.Pods
@@ -153,7 +182,7 @@ if [ "$?" != 0 ] ; then
 	  --text="Error activating podman.socket"
 	exit 1
 fi
-echo "85"
+echo "70"
 
 echo "# Installing Flatseal"
 /usr/bin/flatpak install --user --noninteractive flathub com.github.tchx84.Flatseal
@@ -162,7 +191,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Flatseal Failed"
         exit 1
 fi
-echo "90"
+echo "75"
 
 echo "# Installing Celluloid Media Player"
 /usr/bin/flatpak install --user --noninteractive flathub io.github.celluloid_player.Celluloid
@@ -171,7 +200,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Celluloid Failed"
         exit 1
 fi
-echo "95"
+echo "80"
 
 echo "# Installing Amberol"
 /usr/bin/flatpak install --user --noninteractive flathub io.bassi.Amberol
@@ -180,12 +209,22 @@ if [ "$?" != 0 ] ; then
           --text="Installing Ambertol Failed"
         exit 1
 fi
+echo "95"
+
+echo "# Installing Gnome Snapshot"
+/usr/bin/flatpak install --user --noninteractive flathub org.gnome.Snapshot
+if [ "$?" != 0 ] ; then
+	zenity --error \
+	  --text="Installing Gnome Snapshots Failed"
+	exit 1
+fi
 echo "100"
 
 echo "# Reticulating Final Splines"
 mkdir -p "$HOME"/.config/lzblue/
 touch "$HOME"/.config/lzblue/firstboot-done
 touch "$HOME"/.config/lzblue/firstboot.replace.flatpaks
+touch "$HOME"/.config/lzblue/firtsboot.removed.uneeded
 cp -n /etc/justfile "$HOME"/.justfile
 
 ) | 
