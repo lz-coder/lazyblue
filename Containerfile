@@ -21,15 +21,15 @@ RUN rpm-ostree install python-pygit2 nautilus-python meld && \
 # Enabling rpm-fusion and installing codecs
 RUN rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
-    rpm-ostree override remove mesa-va-drivers --install mesa-va-drivers-freeworld && \
-    rpm-ostree install mesa-vdpau-drivers-freeworld && \
-    rpm-ostree install ffmpeg gstreamer1-plugin-libav gstreamer1-plugins-bad-free-extras \ 
+    rpm-ostree override remove mesa-va-drivers --install mesa-va-drivers-freeworld --install mesa-vdpau-drivers-freeworld && \
+    rpm-ostree override remove libavcodec-free --install=ffmpeg && \
+    rpm-ostree install gstreamer1-plugin-libav gstreamer1-plugins-bad-free-extras \ 
     gstreamer1-plugins-bad-freeworld gstreamer1-plugins-ugly gstreamer1-vaapi
 
 
 RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
-    rpm-ostree install epiphany zsh zenity gnome-themes-extra gnome-tweaks podman-compose just \ 
+    rpm-ostree install epiphany gitg zsh zenity gnome-themes-extra gnome-tweaks podman-compose just \ 
     gstreamer1-plugin-openh264 eza bat sysprof neovim && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
