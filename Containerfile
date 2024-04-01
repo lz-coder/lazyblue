@@ -22,7 +22,7 @@ RUN rpm-ostree install python-pygit2 nautilus-python meld && \
 RUN rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
     rpm-ostree override remove mesa-va-drivers --install mesa-va-drivers-freeworld && \
-    rpm-ostree override remove mesa-vdpau-drivers --install mesa-vdpau-drivers-freeworld && \
+    rpm-ostree install mesa-vdpau-drivers-freeworld && \
     rpm-ostree install ffmpeg gstreamer1-plugin-libav gstreamer1-plugins-bad-free-extras \ 
     gstreamer1-plugins-bad-freeworld gstreamer1-plugins-ugly gstreamer1-vaapi
 
