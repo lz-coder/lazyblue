@@ -17,19 +17,10 @@ RUN curl -Lo /tmp/starship.tar.gz "https://github.com/starship/starship/releases
 RUN rpm-ostree install python-pygit2 nautilus-python meld && \
     git clone https://gitlab.gnome.org/philippun1/turtle.git /tmp/turtle && \
     python /tmp/turtle/install.py install
-   
-# Enabling rpm-fusion and installing codecs
-RUN rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
-    rpm-ostree override remove mesa-va-drivers --install mesa-va-drivers-freeworld --install mesa-vdpau-drivers-freeworld && \
-    rpm-ostree override remove libavfilter-free libavformat-free libavcodec-free libavutil-free libpostproc-free libswresample-free libswscale-free --install=ffmpeg && \
-    rpm-ostree install gstreamer1-plugin-libav gstreamer1-plugins-bad-free-extras \ 
-    gstreamer1-plugins-bad-freeworld gstreamer1-plugins-ugly gstreamer1-vaapi
-
 
 RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
-    rpm-ostree install epiphany gitg zsh zenity gnome-themes-extra gnome-tweaks podman-compose just \ 
+    rpm-ostree install gitg zsh zenity gnome-themes-extra gnome-tweaks podman-compose just \ 
     gstreamer1-plugin-openh264 eza bat sysprof neovim && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
