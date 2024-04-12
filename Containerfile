@@ -23,7 +23,6 @@ RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-o
     rpm-ostree install gitg gh zsh zenity gnome-themes-extra gnome-tweaks podman-compose just \ 
     gstreamer1-plugin-openh264 lsd bat sysprof neovim sushi && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
-    rpm-ostree cleanup -bm && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
     sed -i '/^PRETTY_NAME/s/Silverblue/LzBlue/' /usr/lib/os-release && \
