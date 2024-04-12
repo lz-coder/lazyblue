@@ -51,6 +51,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 kgx --title="CHANGING DEFAULT SHELL" -e "chsh -s $(which zsh) && echo 'DONE! YOU CAN CLOSE THIS WINDOW'"
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
+rm -rf $HOME/.zshrc
 echo ZSH="${HOME}/.oh-my-zsh" >> "${HOME}"/.zshrc
 cat >> "$HOME"/.zshrc << 'EOL'
 
@@ -59,11 +61,28 @@ ZSH_THEME=""
 
 #Plugins
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+fpath+=~/.oh-my-zsh/custom/plugins/zsh-completions/src
+
 source $ZSH/oh-my-zsh.sh
+
+if test -e /bin/lsd; then
+  alias ls="lsd"
+  alias tree="lsd --tree"
+  alias lg="lsd -l --git"
+fi
+if test -e /bin/bat; then
+  alias cat="bat"
+fi
 
 #Star Ship
 eval "$(starship init zsh)"
 EOL
+mkdir -p $HOME/.local/share/fonts
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.zip -O $HOME/.local/share/fonts/Meslo.zip
+unzip $HOME/.local/share/fonts/Meslo.zip -d $HOME/.local/share/fonts/meslo-nerd
+rm -rf $HOME/.local/share/fonts/Meslo.zip
+fc-cache -f
 echo "12"
 fi
 
