@@ -99,7 +99,7 @@ echo "14"
 
 if ! test -e "$HOME"/.config/lzblue/firstboot.replace.flatpaks; then
   echo "# Replacing Fedora Flatpaks with Flathub Ones (this may take a while)"
-  /usr/bin/flatpak install --user --noninteractive org.gnome.Platform//45
+  /usr/bin/flatpak install --user --noninteractive org.gnome.Platform//46
   /usr/bin/flatpak install --user --noninteractive --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
   if [ "$?" != 0 ] ; then
           zenity --error \
