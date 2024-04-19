@@ -245,6 +245,7 @@ touch "$HOME"/.config/lzblue/firstboot-done
 touch "$HOME"/.config/lzblue/firstboot.replace.flatpaks
 touch "$HOME"/.config/lzblue/firtsboot.removed.uneeded
 cp -n /etc/justfile "$HOME"/.justfile
+rm -rf "$HOME"/.config/autostart/lzblue-firstboot
 
 ) | 
      
