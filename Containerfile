@@ -5,8 +5,6 @@ FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_MAJOR_VERSION}
 
 COPY etc /etc
 
-COPY lzblue-firstboot /usr/bin
-
 # Turtle for nautilus
 RUN rpm-ostree install python-pygit2 nautilus-python meld && \
     git clone https://gitlab.gnome.org/philippun1/turtle.git /tmp/turtle && \
@@ -14,8 +12,7 @@ RUN rpm-ostree install python-pygit2 nautilus-python meld && \
 
 RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
-    rpm-ostree install gitg gh zenity gnome-themes-extra gnome-tweaks podman-compose just \ 
-    gstreamer1-plugin-openh264 sysprof neovim sushi && \
+    rpm-ostree install gitg gh gnome-themes-extra podman-compose gstreamer1-plugin-openh264 && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
