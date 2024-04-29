@@ -12,7 +12,7 @@ RUN rpm-ostree install python-pygit2 nautilus-python meld && \
 
 RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
-    rpm-ostree install gitg gh gnome-themes-extra distrobox podman-compose gstreamer1-plugin-openh264 && \
+    rpm-ostree install gitg gh gnome-themes-extra distrobox docker podman-compose gstreamer1-plugin-openh264 && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
