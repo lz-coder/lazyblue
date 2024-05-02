@@ -3,7 +3,8 @@ ARG FEDORA_MAJOR_VERSION=40
 FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_MAJOR_VERSION}
 # See https://pagure.io/releng/issue/11047 for final location
 
-COPY etc /etc
+COPY system_files /
+COPY tools /usr/bin
 
 # Turtle for nautilus
 RUN rpm-ostree install python-pygit2 nautilus-python meld && \
@@ -18,7 +19,7 @@ RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
 RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
     rpm-ostree install gitg gh gnome-themes-extra distrobox podman-compose gstreamer1-plugin-openh264 \
-    podman-docker neovim zsh && \
+    podman-docker podman-tui neovim zsh && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
