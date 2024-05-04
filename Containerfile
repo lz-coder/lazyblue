@@ -19,7 +19,7 @@ RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
 RUN rpm-ostree override remove noopenh264 --install openh264 --install mozilla-openh264 && \
     rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
     rpm-ostree install gitg gh gnome-themes-extra distrobox podman-compose gstreamer1-plugin-openh264 \
-    podman-docker podman-tui neovim zsh epiphany fastfetch && \
+    podman-docker podman-tui helix zsh epiphany fastfetch && \
     rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
     systemctl enable rpm-ostreed-automatic.timer && \
