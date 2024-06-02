@@ -28,10 +28,11 @@ function usage() {
   echo " lzb-manager COMMAND"
   echo
   echo "Commands:"
-  echo " help          		Print this Help."
-  echo " setup-shell   		Setup user shell."
-  echo " setup-sudoers		Setup sudoers rules."	
-  echo " version       		Print software version and exit."
+  echo " help               Print this Help."
+  echo " setup-shell        Setup user shell."
+  echo " setup-sudoers      Setup sudoers rules."
+  echo " starship-update    Update starship prompt."
+  echo " version            Print software version and exit."
   echo
 }
 
@@ -60,6 +61,16 @@ function install_starship() {
   curl -Lo $TMP_DIR/starship.tar.gz "https://github.com/starship/starship/releases/latest/download/starship-x86_64-unknown-linux-gnu.tar.gz"
   tar -xzf $TMP_DIR/starship.tar.gz -C $BIN_DIR
   rm -rf $TMP_DIR/starship.tar.gz
+}
+
+function update_starship() {
+  if test -e $BIN_DIR/starship; then
+    install_starship
+    echo "Starship updated!"
+  else
+    echo "Starship prompt is not installed!!!"
+    exit 1
+  fi
 }
 
 function setup_shell() {
@@ -117,6 +128,10 @@ while [ "$1" != "" ]; do
       ;;
     setup-sudoers)
       setup_sudoers
+      exit
+      ;;
+    starship-update)
+      update_starship
       exit
       ;;
     version)
