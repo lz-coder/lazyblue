@@ -30,6 +30,7 @@ function usage() {
   echo "Commands:"
   echo " help               Print this Help."
   echo " setup-shell        Setup user shell."
+  echo " setup-nvm          Setup Node Version Manager"
   echo " setup-sudoers      Setup sudoers rules."
   echo " starship-update    Update starship prompt."
   echo " version            Print software version and exit."
@@ -115,6 +116,23 @@ function setup_sudoers() {
   fi
 }
 
+function setup_nvm() {
+  if test -e $STATE_DIR/nvm.configured; then
+    echo "NVM already configured in your system."
+    echo "If not you can remove $STATE_DIR/nvm.configured file."
+  else
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    if test -e $STATE_DIR/shell.configured; then
+      echo "NVM zsh setup"
+      echo " " >> $HOME/.zshrc
+      echo export NVM_DIR="$HOME/.nvm" >> $HOME/.zshrc
+      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $HOME/.zshrc
+      echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> $HOME/.zshrc
+    fi
+    touch $STATE_DIR/nvm.configured
+  fi
+}
+
 while [ "$1" != "" ]; do
   PARAM=`echo $1 | awk -F= '{print $1}'`
   case $PARAM in
@@ -128,6 +146,10 @@ while [ "$1" != "" ]; do
       ;;
     setup-sudoers)
       setup_sudoers
+      exit
+      ;;
+    setup-nvm)
+      setup_nvm
       exit
       ;;
     starship-update)
