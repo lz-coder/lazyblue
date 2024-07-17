@@ -6,24 +6,10 @@ FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_MAJOR_VERSION}
 COPY system_files /
 COPY tools /usr/bin
 
-# Turtle for nautilus
-RUN rpm-ostree install python-pygit2 nautilus-python meld && \
-    git clone https://gitlab.gnome.org/philippun1/turtle.git /tmp/turtle && \
-    python /tmp/turtle/install.py install
+COPY build.sh /tmp/build.sh 
 
-# Install VSCode
-RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-    sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
-    rpm-ostree install code && rm -rf /etc/yum.repos.d/vscode.repo
-
-RUN rpm-ostree override remove noopenh264 --install openh264 && \
-    rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console && \
-    rpm-ostree install gh gnome-themes-extra distrobox podman-compose gstreamer1-plugin-openh264 \
-    podman-docker podman-tui helix tmux zsh epiphany sysprof git-cola && \
-    rpm-ostree override remove gnome-software-rpm-ostree firefox firefox-langpacks && \
-    sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
-    systemctl enable rpm-ostreed-automatic.timer && \
-    sed -i '/^PRETTY_NAME/s/Silverblue/LzBlue/' /usr/lib/os-release && \
+RUN mkdir -p /var/lib/alternatives && \
+    /tmp/build.sh && \
     rm -rf /tmp/* /var/* && \
     ostree container commit && \
     mkdir -p /tmp /var/tmp && \
