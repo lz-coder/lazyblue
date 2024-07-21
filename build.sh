@@ -9,7 +9,9 @@ rpm-ostree install python-pygit2 nautilus-python meld
 git clone https://gitlab.gnome.org/philippun1/turtle.git /tmp/turtle
 python /tmp/turtle/install.py install
 
-rpm-ostree install gnome-themes-extra sysprof gitg gh tmux distrobox podman-compose gstreamer1-plugin-openh264 podman-docker podman-tui helix zsh
+rpm-ostree install adw-gtk3 sysprof gitg gstreamer1-plugin-openh264
+rpm-ostree install podman-compose podman-docker podman-tui helix zsh tmux
+rpm-ostree override remove power-profiles-daemon --install tuned-ppd tuned-gtk
 rpm-ostree override remove noopenh264 --install openh264
 rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console
 rpm-ostree override remove firefox firefox-langpacks --install epiphany
