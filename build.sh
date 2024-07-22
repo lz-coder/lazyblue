@@ -11,7 +11,7 @@ python /tmp/turtle/install.py install
 
 rpm-ostree install adw-gtk3-theme sysprof gitg gstreamer1-plugin-openh264
 rpm-ostree install podman-compose podman-docker podman-tui helix zsh tmux
-rpm-ostree override remove power-profiles-daemon --install tuned-ppd tuned-gtk
+rpm-ostree override remove power-profiles-daemon --install tuned-ppd --install tuned-gtk
 rpm-ostree override remove noopenh264 --install openh264
 rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console
 rpm-ostree override remove firefox firefox-langpacks --install epiphany
