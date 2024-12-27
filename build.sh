@@ -5,19 +5,13 @@ set -ouex pipefail
 RELEASE="$(rpm -E %fedora)"
 
 # Turtle for nautilus
-rpm-ostree install python-pygit2 nautilus-python meld
+dnf install python3-pygit2 python3-secretstorage nautilus-python meld
 git clone https://gitlab.gnome.org/philippun1/turtle.git /tmp/turtle
 python /tmp/turtle/install.py install
 
-rpm-ostree install gnome-themes-extra sysprof gitg gstreamer1-plugin-openh264
-rpm-ostree install podman-compose podman-docker podman-tui helix zsh tmux
-rpm-ostree override remove power-profiles-daemon --install tuned-ppd --install tuned-gtk
-rpm-ostree override remove noopenh264 --install openh264
-rpm-ostree override remove gnome-terminal-nautilus gnome-terminal --install gnome-console
-rpm-ostree override remove firefox firefox-langpacks --install epiphany
-rpm-ostree override remove gnome-software-rpm-ostree
+dnf install gnome-themes-extra sysprof gitg gstreamer1-plugin-openh264 openh264
+dnf install podman-compose podman-docker podman-tui helix zsh tmux epiphany
+dnf remove noopenh264 firefox firefox-langpacks gnome-software-rpm-ostree rpm-ostree
 
-sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf
-systemctl enable rpm-ostreed-automatic.timer
 sed -i '/^PRETTY_NAME/s/Silverblue/Lazyblue/' /usr/lib/os-release
 
