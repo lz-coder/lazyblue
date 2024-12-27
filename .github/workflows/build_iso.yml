@@ -1,4 +1,4 @@
-name: Build LzBlue ISOs
+name: build-lazyblue-iso
 on:
   workflow_dispatch:
   pull_request:
@@ -29,9 +29,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image_name: [lzblue]
-        major_version: [40]
-        image_tag: [latest, gts]
+        image_name: [lazyblue]
+        major_version: [41]
+        image_tag: [latest, gts, stable]
 
     steps:
       - name: Build ISOs
