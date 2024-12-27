@@ -1,0 +1,10 @@
+[Unit]
+Description=Apply bootc updates
+Documentation=man:bootc(8)
+ConditionPathExists=/run/ostree-booted
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bootc update --quiet
+ExecStartPost=/bin/bash -c 'if [ $? -eq 0 ]; then /usr/bin/notify-send "Applied system updates with success!" "System has been updated, reboot the system to use the new version"; fi'
+
