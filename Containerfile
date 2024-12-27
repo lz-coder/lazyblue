@@ -9,7 +9,6 @@ COPY build.sh /tmp/build.sh
 RUN mkdir -p /var/lib/alternatives && \
     /tmp/build.sh && \
     rm -rf /tmp/* /var/* && \
-    ostree container commit && \
     mkdir -p /tmp /var/tmp && \
     chmod -R 1777 /tmp /var/tmp
 
