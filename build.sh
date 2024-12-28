@@ -9,9 +9,9 @@ dnf install -y python3-pygit2 python3-secretstorage nautilus-python meld
 git clone https://gitlab.gnome.org/philippun1/turtle.git /tmp/turtle
 python /tmp/turtle/install.py install
 
-dnf install -y gnome-themes-extra sysprof gitg gstreamer1-plugin-openh264 openh264
-dnf install -y podman-compose podman-docker podman-tui helix zsh tmux epiphany distrobox
-dnf remove -y noopenh264 firefox firefox-langpacks gnome-software-rpm-ostree rpm-ostree
+dnf install -y gnome-themes-extra sysprof gitg
+dnf install -y podman-compose podman-docker podman-tui helix tmux epiphany distrobox
+dnf remove -y firefox firefox-langpacks gnome-software-rpm-ostree rpm-ostree
 
 sed -i '/^PRETTY_NAME/s/Silverblue/Lazyblue/' /usr/lib/os-release
 
